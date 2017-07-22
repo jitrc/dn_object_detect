@@ -5,16 +5,6 @@
 //  Created by Xun Wang on 12/05/16.
 //  Copyright (c) 2016 Xun Wang. All rights reserved.
 //
-#include "opencv2/core/version.hpp"
-#if CV_MAJOR_VERSION == 3
-	#include <opencv/cv.hpp>
-	#include <opencv2/core.hpp>
-	#include <opencv2/imgproc.hpp>
-#else
-	#include <opencv2/core/core.hpp>
-	#include <opencv2/imgproc/imgproc.hpp>
-#endif
-
 
 #include <boost/bind.hpp>
 #include <boost/timer.hpp>
@@ -37,6 +27,25 @@
 
 #include "dn_object_detect/DetectedObjects.h"
 
+image ipl_to_image(IplImage* src)
+{
+    unsigned char *data = (unsigned char *)src->imageData;
+    int h = src->height;
+    int w = src->width;
+    int c = src->nChannels;
+    int step = src->widthStep;
+    image out = make_image(w, h, c);
+    int i, j, k, count=0;;
+
+    for(k= 0; k < c; ++k){
+        for(i = 0; i < h; ++i){
+            for(j = 0; j < w; ++j){
+                out.data[count++] = data[i*step + j*c + k]/255.;
+            }
+        }
+    }
+    return out;
+}
 namespace uts_perp {
 
 using namespace std;
