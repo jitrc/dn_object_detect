@@ -5,9 +5,16 @@
 //  Created by Xun Wang on 12/05/16.
 //  Copyright (c) 2016 Xun Wang. All rights reserved.
 //
+#include "opencv2/core/version.hpp"
+#if CV_MAJOR_VERSION == 3
+	#include <opencv/cv.hpp>
+	#include <opencv2/core.hpp>
+	#include <opencv2/imgproc.hpp>
+#else
+	#include <opencv2/core/core.hpp>
+	#include <opencv2/imgproc/imgproc.hpp>
+#endif
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 
 #include <boost/bind.hpp>
 #include <boost/timer.hpp>
@@ -275,7 +282,7 @@ void MultiClassObjectDetector::startDetection()
   cv_ptr_.reset();
   imgMsgPtr_.reset();
 
-  image_transport::TransportHints hints( "compressed" );
+  image_transport::TransportHints hints( "raw" );
   imgSub_ = imgTrans_.subscribe( cameraDevice_, 1,
                                   &MultiClassObjectDetector::processingRawImages, this, hints );
   
