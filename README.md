@@ -10,7 +10,7 @@ Fully check out this repository with submodule ```darknet```. Compile the ```dar
 
 ```
 cd darknet;mkdir build;cd build
-cmake -DCMAKE_INSTALL_PREFIX=<full path to dn_object_detect> ..
+cmake -DOPENCV=OFF -DCMAKE_INSTALL_PREFIX=<full path to dn_object_detect> ..
 make install
 ```
 
